@@ -18,8 +18,15 @@ document.querySelector("form").addEventListener("submit", async (e) => {
     console.log('tokens:', tokens)
 
     // Get answer
-    const answer = await icp_gpt2.model_inference(18, tokens);
-    console.log('answer:', answer)
+    let answer = {};
+    try {
+        answer = await icp_gpt2.model_inference(18, tokens);
+        console.log('answer:', answer)
+    }
+    catch(err) {
+        console.error(err);
+        document.getElementById("greeting").innerText = 'Model error';
+    }
 
     // Enable button
     button.removeAttribute("disabled");
@@ -29,11 +36,6 @@ document.querySelector("form").addEventListener("submit", async (e) => {
         const retext = decode(answer.Ok);
         console.log('decoded:', retext)
         document.getElementById("greeting").innerText = retext;
-    }
-
-    // Error
-    else {
-        document.getElementById("greeting").innerText = 'Error';
     }
  
     return false;
