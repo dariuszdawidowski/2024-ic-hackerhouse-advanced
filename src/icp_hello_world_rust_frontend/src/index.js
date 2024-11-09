@@ -1,19 +1,18 @@
-import { icp_hello_world_rust_backend } from "../../declarations/icp_hello_world_rust_backend";
+import { icp_gpt2 } from "../../declarations/icp_gpt2";
+
 
 document.querySelector("form").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const button = e.target.querySelector("button");
+    e.preventDefault();
+    const button = e.target.querySelector("button");
+    const name = document.getElementById("name").value.toString();
+    button.setAttribute("disabled", true);
 
-  const name = document.getElementById("name").value.toString();
+    const answer = await icp_gpt2.model_inference(14, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
 
-  button.setAttribute("disabled", true);
+    button.removeAttribute("disabled");
 
-  // Interact with foo actor, calling the greet method
-  const greeting = await icp_hello_world_rust_backend.greet(name);
-
-  button.removeAttribute("disabled");
-
-  document.getElementById("greeting").innerText = greeting;
-
-  return false;
+    console.log(answer)
+    // document.getElementById("greeting").innerText = answer;
+ 
+    return false;
 });
