@@ -18,7 +18,7 @@ document.querySelector("form").addEventListener("submit", async (e) => {
     console.log('tokens:', tokens)
 
     // Get answer
-    const answer = await icp_gpt2.model_inference(tokens.length, tokens);
+    const answer = await icp_gpt2.model_inference(18, tokens);
     console.log('answer:', answer)
 
     // Enable button
