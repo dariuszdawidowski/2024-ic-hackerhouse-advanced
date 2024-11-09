@@ -1,5 +1,5 @@
 import { icp_gpt2 } from "../../declarations/icp_gpt2";
-import { encode } from 'gpt-tokenizer'
+import { encode, decode } from 'gpt-tokenizer'
 
 
 document.querySelector("form").addEventListener("submit", async (e) => {
@@ -11,11 +11,11 @@ document.querySelector("form").addEventListener("submit", async (e) => {
 
     // Prompt
     const prompt = document.getElementById("name").value.toString();
+    console.log('prompt:', prompt)
 
     // Tokenize
-    const text = 'Hello, world!'
-    const tokens = encode(text)
-    console.log('tokens', tokens)
+    const tokens = encode(prompt);
+    console.log('tokens:', tokens)
 
     // Get answer
     const answer = await icp_gpt2.model_inference(tokens.length, tokens);
@@ -23,9 +23,17 @@ document.querySelector("form").addEventListener("submit", async (e) => {
     // Enable button
     button.removeAttribute("disabled");
 
-    // Display message
-    console.log(answer)
-    // document.getElementById("greeting").innerText = answer;
+    // Detokenize & display message
+    if ('Ok' in answer) {
+        const retext = decode(answer.Ok);
+        console.log('decoded:', retext)
+        document.getElementById("greeting").innerText = retext;
+    }
+
+    // Error
+    else {
+        document.getElementById("greeting").innerText = 'Error';
+    }
  
     return false;
 });
