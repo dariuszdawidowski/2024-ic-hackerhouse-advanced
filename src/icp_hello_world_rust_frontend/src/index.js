@@ -1,5 +1,5 @@
-import { icp_gpt2 } from "../../declarations/icp_gpt2";
-import { encode, decode } from 'gpt-tokenizer'
+import { icp_gpt2 } from '../../declarations/icp_gpt2';
+import { encode, decode } from 'gpt-tokenizer/encoding/p50k_base';
 
 
 document.querySelector("form").addEventListener("submit", async (e) => {
@@ -19,6 +19,7 @@ document.querySelector("form").addEventListener("submit", async (e) => {
 
     // Get answer
     const answer = await icp_gpt2.model_inference(tokens.length, tokens);
+    console.log('answer:', answer)
 
     // Enable button
     button.removeAttribute("disabled");
