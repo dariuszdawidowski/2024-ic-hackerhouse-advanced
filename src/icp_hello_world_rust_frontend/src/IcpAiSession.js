@@ -5,7 +5,10 @@ import { encode, decode } from 'gpt-tokenizer/encoding/p50k_base';
 export default class IcpAiSession {
 
     constructor() {
-        this.session = [];
+        this.session = {
+            progress: [],
+            final: []
+        };
     }
 
     async prompt(text) {
@@ -31,7 +34,7 @@ export default class IcpAiSession {
         if ('Ok' in answer) {
             const response = decode(answer.Ok);
             console.log('decoded:', response);
-            this.session.push({prompt: tokens, result: Array.from(answer.Ok, bigInt => Number(bigInt))});
+            this.session.progress.push({prompt: tokens, result: Array.from(answer.Ok, bigInt => Number(bigInt))});
             console.log('session:', this.session);
             return response;
         }

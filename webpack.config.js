@@ -15,9 +15,8 @@ module.exports = {
   target: "web",
   mode: isDevelopment ? "development" : "production",
   entry: {
-    // The frontend.entrypoint points to the HTML file for this build, so we need
-    // to replace the extension to `.js`.
     index: path.join(__dirname, frontend_entry).replace(/\.html$/, ".js"),
+    library: path.join(__dirname, "src", frontendDirectory, "src", "IcpAiSession.js"),
   },
   devtool: isDevelopment ? "source-map" : false,
   optimization: {
@@ -35,7 +34,7 @@ module.exports = {
     },
   },
   output: {
-    filename: "index.js",
+    filename: "[name].js",
     path: path.join(__dirname, "dist", frontendDirectory),
   },
 
@@ -54,6 +53,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.join(__dirname, frontend_entry),
       cache: false,
+      chunks: ["index", "library"],
     }),
     new webpack.EnvironmentPlugin([
       ...Object.keys(process.env).filter((key) => {
