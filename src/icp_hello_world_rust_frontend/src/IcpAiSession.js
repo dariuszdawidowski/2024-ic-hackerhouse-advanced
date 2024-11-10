@@ -4,6 +4,10 @@ import { encode, decode } from 'gpt-tokenizer/encoding/p50k_base';
 
 export default class IcpAiSession {
 
+    constructor() {
+        this.session = [];
+    }
+
     async prompt(text) {
 
         console.log('prompt:', text);
@@ -27,6 +31,8 @@ export default class IcpAiSession {
         if ('Ok' in answer) {
             const response = decode(answer.Ok);
             console.log('decoded:', response);
+            this.session.push({prompt: tokens, result: Array.from(answer.Ok, bigInt => Number(bigInt))});
+            console.log('session:', this.session);
             return response;
         }
 
@@ -34,43 +40,3 @@ export default class IcpAiSession {
     }
 
 }
-/*
-document.querySelector("form").addEventListener("submit", async (e) => {
-
-    // Button
-    e.preventDefault();
-    const button = e.target.querySelector("button");
-    button.setAttribute("disabled", true);
-
-    // Prompt
-    const prompt = document.getElementById("name").value.toString();
-    console.log('prompt:', prompt)
-
-    // Tokenize
-    const tokens = encode(prompt);
-    console.log('tokens:', tokens)
-
-    // Get answer
-    let answer = {};
-    try {
-        answer = await icp_gpt2.model_inference(18, tokens);
-        console.log('answer:', answer)
-    }
-    catch(err) {
-        console.error(err);
-        document.getElementById("greeting").innerText = 'Model error';
-    }
-
-    // Enable button
-    button.removeAttribute("disabled");
-
-    // Detokenize & display message
-    if ('Ok' in answer) {
-        const retext = decode(answer.Ok);
-        console.log('decoded:', retext)
-        document.getElementById("greeting").innerText = retext;
-    }
- 
-    return false;
-});
-*/
