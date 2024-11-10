@@ -42,7 +42,7 @@ export default class IcpAiSession {
             this.session.result = Array.from(answer.Ok, bigInt => Number(bigInt));
             this.final.push(...this.session.result);
             console.log('session:', this.session);
-            return response;
+            return response.trim();
         }
 
         return null;
@@ -72,8 +72,10 @@ export default class IcpAiSession {
         if ('Ok' in answer) {
             this.session.result = Array.from(answer.Ok, bigInt => Number(bigInt));
             this.final.push(...this.session.result);
-            console.log('decoded:', decode(answer.Ok).trim());
+            const response = decode(answer.Ok);
+            console.log('decoded:', response.trim());
             console.log('session:', this.session);
+            return response;
         }
 
         return null;

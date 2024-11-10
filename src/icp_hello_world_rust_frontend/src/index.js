@@ -16,18 +16,20 @@ document.querySelector('form').addEventListener('submit', async (e) => {
     // Prompt AI
     const ai = new IcpAiSession({maxTokens: maxtokens});
     console.log('Pass 1', '-------------------');
-    await ai.prompt(prompt);
+    const begin = await ai.prompt(prompt);
+    document.getElementById('greeting').innerText = begin;
 
     for (let x = 0; x < loops - 1; x ++) {
         console.log('Pass', x + 2, '-------------------');
-        await ai.next();
+        const chunk = await ai.next();
+        document.getElementById('greeting').innerText = document.getElementById('greeting').innerText + ' ' + chunk;
     }
     
     // Enable button
     button.removeAttribute('disabled');
 
     // Display message
-    document.getElementById('greeting').innerText = ai.answer();
+    // document.getElementById('greeting').innerText = ai.answer();
  
     return false;
 });
